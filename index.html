@@ -3,118 +3,146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Caribe Colony Guest Wi-Fi</title>
+
+<title>Caribe Colony Pool Wi-Fi</title>
 
 <style>
 body{
     margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:linear-gradient(#0099cc,#33cc99);
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(#0c87d8,#7fd7ff);
+    color:#18354d;
+}
+
+.container{
+    max-width:650px;
+    margin:40px auto;
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+.header{
+    padding:20px;
+    text-align:center;
+    background:#ffffff;
+}
+
+.header img{
+    max-width:95%;
+    height:auto;
+}
+
+.content{
+    padding:35px;
     text-align:center;
 }
 
-.card{
-    background:rgba(0,0,0,.35);
-    backdrop-filter:blur(6px);
-    padding:40px;
-    border-radius:20px;
-    max-width:500px;
-    width:90%;
-    box-shadow:0 15px 40px rgba(0,0,0,.4);
-}
-
-h1{
+h2{
+    color:#0074b8;
     margin-top:0;
-    font-size:2em;
 }
 
 .progress{
-    width:100%;
     height:24px;
-    background:#ffffff44;
-    border-radius:30px;
+    background:#d9eef8;
+    border-radius:12px;
     overflow:hidden;
-    margin:30px 0;
+    margin:25px 0;
 }
 
 .bar{
-    width:0%;
     height:100%;
-    background:#00ff88;
-    transition:width .2s linear;
+    width:0%;
+    background:#16b84e;
+    transition:width .3s;
 }
 
-#status{
+.status{
     font-size:1.2em;
-    min-height:35px;
+    margin-top:15px;
 }
 
-#reveal{
+.check{
+    color:#1ba64a;
     display:none;
+    margin:10px;
+    font-weight:bold;
 }
 
-button{
-    margin-top:30px;
-    padding:15px 30px;
-    font-size:18px;
-    border:none;
-    border-radius:40px;
-    cursor:pointer;
-    background:#FFD54F;
+.reveal{
+    display:none;
+    margin-top:35px;
 }
-button:hover{
-    background:#FFE082;
+
+.reveal h1{
+    font-size:2.3em;
+    color:#0b6fa8;
+}
+
+.reveal p{
+    font-size:1.15em;
+    line-height:1.6;
+}
+
+.footer{
+    margin-top:30px;
+    font-size:.85em;
+    color:#888;
 }
 </style>
-
 </head>
 
 <body>
 
-<div class="card">
+<div class="container">
 
-<div id="loading">
+<div class="header">
+<img src="header.png" alt="Caribe Colony">
+</div>
 
-<h1>🌴 Caribe Colony Pool</h1>
+<div class="content">
 
-<h2>FREE GUEST WI-FI</h2>
+<h2>🌴 Caribe Colony Pool Guest Wi-Fi</h2>
+
+<p>Searching for available network...</p>
 
 <div class="progress">
 <div class="bar" id="bar"></div>
 </div>
 
-<div id="status">Searching for Network...</div>
-
+<div class="status" id="status">
+Connecting...
 </div>
 
-<div id="reveal">
+<div class="check" id="c1">✔ Signal Found</div>
+<div class="check" id="c2">✔ Authenticating</div>
+<div class="check" id="c3">✔ Verifying HOA Membership</div>
 
-<h1>🎉 Congratulations!</h1>
+<div class="reveal" id="reveal">
 
-<h2>You have successfully connected...</h2>
-
-<h2>...</h2>
-
-<h2>...</h2>
-
-<h1>😂 to absolutely nothing.</h1>
+<h1>🎉 Success!</h1>
 
 <p>
-Thanks for playing!
+You have been successfully connected...
+</p>
+
+<h2>...to absolutely nothing.</h2>
+
+<p>
+😄 Thanks for playing!
 </p>
 
 <p>
-Enjoy your day at Caribe Colony Pool.
+Enjoy the pool, soak up some sunshine, and don't forget the sunscreen.
 </p>
 
-<button onclick="location.reload()">
-Prank Someone Else 😄
-</button>
+<div class="footer">
+Caribe Colony Pool • Have a great day!
+</div>
+
+</div>
 
 </div>
 
@@ -122,45 +150,47 @@ Prank Someone Else 😄
 
 <script>
 
-const messages=[
-"Searching for Network...",
-"Signal Found ✔",
-"Authenticating...",
-"Obtaining IP Address...",
-"Verifying HOA Membership...",
-"Connecting..."
-];
-
-let percent=0;
-let msg=0;
-
 const bar=document.getElementById("bar");
 const status=document.getElementById("status");
 
-const interval=setInterval(()=>{
+let p=0;
 
-percent+=2;
+const interval=setInterval(function(){
 
-bar.style.width=percent+"%";
+p+=2;
 
-if(percent%18===0 && msg<messages.length-1){
-msg++;
-status.innerHTML=messages[msg];
+bar.style.width=p+"%";
+
+if(p==25){
+document.getElementById("c1").style.display="block";
+status.innerHTML="Authenticating...";
 }
 
-if(percent>=100){
+if(p==55){
+document.getElementById("c2").style.display="block";
+status.innerHTML="Verifying HOA Membership...";
+}
+
+if(p==82){
+document.getElementById("c3").style.display="block";
+status.innerHTML="Establishing Secure Connection...";
+}
+
+if(p>=100){
+
 clearInterval(interval);
 
-setTimeout(()=>{
+status.innerHTML="Connected.";
 
-document.getElementById("loading").style.display="none";
+setTimeout(function(){
+
 document.getElementById("reveal").style.display="block";
 
 },1200);
 
 }
 
-},80);
+},90);
 
 </script>
 
